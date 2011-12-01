@@ -1213,8 +1213,18 @@ doesn't appear to be valid.
 
 
 .SH For Incremental Assembly mode:
+
 .TP
-.BR \-\-rebuild\-map ", " \-r
+.BR \-f ", " \-\-fail
+This allows the hot-plug system to remove devices that have fully disappeared
+from the kernel.  It will first fail and then remove the device from any
+array it belongs to.
+The device name given should be a kernel device name such as "sda",
+not a name in
+.IR /dev .
+
+.TP
+.BR \-r ", " \-\-rebuild\-map
 Rebuild the map file
 .RB ( /var/run/mdadm/map )
 that
@@ -1222,12 +1232,12 @@ that
 uses to help track which arrays are currently being assembled.
 
 .TP
-.BR \-\-run ", " \-R
+.BR \-R ", " \-\-run
 Run any array assembled as soon as a minimal number of devices are
 available, rather than waiting until all expected devices are present.
 
 .TP
-.BR \-\-scan ", " \-s
+.BR \-s ", " \-\-scan
 Only meaningful with
 .B \-R
 this will scan the
@@ -1237,15 +1247,6 @@ start any that are not already started.  If any such array is listed
 in
 .B mdadm.conf
 as requiring an external bitmap, that bitmap will be attached first.
-
-.TP
-.BR \-\-fail ", " \-f
-This allows the hot-plug system to remove devices that have fully disappeared
-from the kernel.  It will first fail and then remove the device from any
-array it belongs to.
-The device name given should be a kernel device name such as "sda",
-not a name in
-.IR /dev .
 
 .SH For Monitor mode:
 .TP
