@@ -1705,12 +1705,18 @@ Usage:
 
 MISC mode includes a number of distinct operations that
 operate on distinct devices.  The operations are:
+
 .TP
-.B \-\-query
-The device is examined to see if it is
-(1) an active md array, or
-(2) a component of an md array.
-The information discovered is reported.
+.BR \-b ", " \-\-brief
+Be less verbose.  This is used with
+.B \-\-detail
+and
+.BR \-\-examine .
+Using
+.B \-\-brief
+with
+.B \-\-verbose
+gives an intermediate level of verbosity.
 
 .TP
 .B \-\-detail
@@ -1766,6 +1772,64 @@ metadata failed to find its platform components on this system
 .RE
 
 .TP
+.B \-\-examine
+The device should be a component of an md array.
+.I mdadm
+will read the md superblock of the device and display the contents.
+If
+.B \-\-brief
+or
+.B \-\-scan
+is given, then multiple devices that are components of the one array
+are grouped together and reported in a single entry suitable
+for inclusion in
+.BR /etc/mdadm.conf .
+
+Having
+.B \-\-scan
+without listing any devices will cause all devices listed in the
+config file to be examined.
+
+.TP
+.B \-\-query
+The device is examined to see if it is
+(1) an active md array, or
+(2) a component of an md array.
+The information discovered is reported.
+
+.TP
+.B \-\-readonly
+This will mark an active array as read-only, providing that it is
+not currently being used.
+
+.TP
+.B \-\-readwrite
+This will change a
+.B readonly
+array back to being read/write.
+
+.TP
+.B \-\-run
+This will fully activate a partially assembled md array.
+
+.TP
+.B \-\-scan
+For all operations except
+.BR \-\-examine ,
+.B \-\-scan
+will cause the operation to be applied to all arrays listed in
+.BR /proc/mdstat .
+For
+.BR \-\-examine,
+.B \-\-scan
+causes all devices listed in the config file to be examined.
+
+.TP
+.B \-\-stop
+The devices should be active md arrays which will be deactivated, as
+long as they are not currently in use.
+
+.TP
 .B \-\-update\-subarray=
 If the device is a container and the argument to \-\-update\-subarray
 specifies a subarray in the container, then attempt to update the given
@@ -1786,69 +1850,6 @@ re\-assembled.  If updating
 .B name
 would change the UUID of an active subarray this operation is blocked,
 and the command will end in an error.
-
-.TP
-.B \-\-examine
-The device should be a component of an md array.
-.I mdadm
-will read the md superblock of the device and display the contents.
-If
-.B \-\-brief
-or
-.B \-\-scan
-is given, then multiple devices that are components of the one array
-are grouped together and reported in a single entry suitable
-for inclusion in
-.BR /etc/mdadm.conf .
-
-Having
-.B \-\-scan
-without listing any devices will cause all devices listed in the
-config file to be examined.
-
-.TP
-.B \-\-stop
-The devices should be active md arrays which will be deactivated, as
-long as they are not currently in use.
-
-.TP
-.B \-\-run
-This will fully activate a partially assembled md array.
-
-.TP
-.B \-\-readonly
-This will mark an active array as read-only, providing that it is
-not currently being used.
-
-.TP
-.B \-\-readwrite
-This will change a
-.B readonly
-array back to being read/write.
-
-.TP
-.B \-\-scan
-For all operations except
-.BR \-\-examine ,
-.B \-\-scan
-will cause the operation to be applied to all arrays listed in
-.BR /proc/mdstat .
-For
-.BR \-\-examine,
-.B \-\-scan
-causes all devices listed in the config file to be examined.
-
-.TP
-.BR \-b ", " \-\-brief
-Be less verbose.  This is used with
-.B \-\-detail
-and
-.BR \-\-examine .
-Using
-.B \-\-brief
-with
-.B \-\-verbose
-gives an intermediate level of verbosity.
 
 .SH MONITOR MODE
 
