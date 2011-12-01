@@ -1076,30 +1076,8 @@ device, it must first be marked as
 .SH For Misc mode:
 
 .TP
-.BR \-Q ", " \-\-query
-Examine a device to see
-(1) if it is an md device and (2) if it is a component of an md
-array.
-Information about what is discovered is presented.
-
-.TP
 .BR \-D ", " \-\-detail
 Print details of one or more md devices.
-
-.TP
-.BR \-\-detail\-platform
-Print details of the platform's RAID capabilities (firmware / hardware
-topology) for a given metadata format.
-
-.TP
-.BR \-Y ", " \-\-export
-When used with
-.B \-\-detail
-or
-.BR \-\-examine ,
-output will be formatted as
-.B key=value
-pairs for easy import into the environment.
 
 .TP
 .BR \-E ", " \-\-examine
@@ -1112,27 +1090,32 @@ and
 applies to devices which are components of an array, while
 .B \-\-detail
 applies to a whole array which is currently active.
-.TP
-.B \-\-sparc2.2
-If an array was created on a SPARC machine with a 2.2 Linux kernel
-patched with RAID support, the superblock will have been created
-incorrectly, or at least incompatibly with 2.4 and later kernels.
-Using the
-.B \-\-sparc2.2
-flag with
-.B \-\-examine
-will fix the superblock before displaying it.  If this appears to do
-the right thing, then the array can be successfully assembled using
-.BR "\-\-assemble \-\-update=sparc2.2" .
 
 .TP
-.BR \-X ", " \-\-examine\-bitmap
-Report information about a bitmap file.
-The argument is either an external bitmap file or an array component
-in case of an internal bitmap.  Note that running this on an array
-device (e.g.
-.BR /dev/md0 )
-does not report the bitmap for that array.
+.BR \-\-detail\-platform
+Print details of the platform's RAID capabilities (firmware / hardware
+topology) for a given metadata format.
+
+.TP
+.B \-\-kill\-subarray=
+If the device is a container and the argument to \-\-kill\-subarray
+specifies an inactive subarray in the container, then the subarray is
+deleted.  Deleting all subarrays will leave an 'empty-container' or
+spare superblock on the drives.  See \-\-zero\-superblock for completely
+removing a superblock.  Note that some formats depend on the subarray
+index for generating a UUID, this command will fail if it would change
+the UUID of an active subarray.
+
+.TP
+.BR \-o ", " \-\-readonly
+mark array as readonly.
+
+.TP
+.BR \-Q ", " \-\-query
+Examine a device to see
+(1) if it is an md device and (2) if it is a component of an md
+array.
+Information about what is discovered is presented.
 
 .TP
 .BR \-R ", " \-\-run
@@ -1148,38 +1131,17 @@ to start the array in degraded mode.
 deactivate array, releasing all resources.
 
 .TP
-.BR \-o ", " \-\-readonly
-mark array as readonly.
-
-.TP
-.BR \-w ", " \-\-readwrite
-mark array as readwrite.
-
-.TP
-.B \-\-zero\-superblock
-If the device contains a valid md superblock, the block is
-overwritten with zeros.  With
-.B \-\-force
-the block where the superblock would be is overwritten even if it
-doesn't appear to be valid.
-
-.TP
-.B \-\-kill\-subarray=
-If the device is a container and the argument to \-\-kill\-subarray
-specifies an inactive subarray in the container, then the subarray is
-deleted.  Deleting all subarrays will leave an 'empty-container' or
-spare superblock on the drives.  See \-\-zero\-superblock for completely
-removing a superblock.  Note that some formats depend on the subarray
-index for generating a UUID, this command will fail if it would change
-the UUID of an active subarray.
-
-.TP
-.B \-\-update\-subarray=
-If the device is a container and the argument to \-\-update\-subarray
-specifies a subarray in the container, then attempt to update the given
-superblock field in the subarray. See below in
-.B MISC MODE
-for details.
+.B \-\-sparc2.2
+If an array was created on a SPARC machine with a 2.2 Linux kernel
+patched with RAID support, the superblock will have been created
+incorrectly, or at least incompatibly with 2.4 and later kernels.
+Using the
+.B \-\-sparc2.2
+flag with
+.B \-\-examine
+will fix the superblock before displaying it.  If this appears to do
+the right thing, then the array can be successfully assembled using
+.BR "\-\-assemble \-\-update=sparc2.2" .
 
 .TP
 .BR \-t ", " \-\-test
@@ -1190,6 +1152,18 @@ the exit status of
 is set to reflect the status of the device.  See below in
 .B MISC MODE
 for details.
+
+.TP
+.B \-\-update\-subarray=
+If the device is a container and the argument to \-\-update\-subarray
+specifies a subarray in the container, then attempt to update the given
+superblock field in the subarray. See below in
+.B MISC MODE
+for details.
+
+.TP
+.BR \-w ", " \-\-readwrite
+mark array as readwrite.
 
 .TP
 .BR \-W ", " \-\-wait
@@ -1209,6 +1183,34 @@ will return with success if the array uses external metadata and we
 successfully waited.  For native arrays this returns immediately as the
 kernel handles dirty-clean transitions at shutdown.  No action is taken
 if safe-mode handling is disabled.
+
+.TP
+.BR \-X ", " \-\-examine\-bitmap
+Report information about a bitmap file.
+The argument is either an external bitmap file or an array component
+in case of an internal bitmap.  Note that running this on an array
+device (e.g.
+.BR /dev/md0 )
+does not report the bitmap for that array.
+
+.TP
+.BR \-Y ", " \-\-export
+When used with
+.B \-\-detail
+or
+.BR \-\-examine ,
+output will be formatted as
+.B key=value
+pairs for easy import into the environment.
+
+.TP
+.B \-\-zero\-superblock
+If the device contains a valid md superblock, the block is
+overwritten with zeros.  With
+.B \-\-force
+the block where the superblock would be is overwritten even if it
+doesn't appear to be valid.
+
 
 .SH For Incremental Assembly mode:
 .TP
