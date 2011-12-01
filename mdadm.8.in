@@ -740,10 +740,49 @@ metadata such as DDF and IMSM.
 
 .SH For assemble:
 
+.ig
 .TP
-.BR \-u ", " \-\-uuid=
-uuid of array to assemble.  Devices which don't have this uuid are
-excluded
+.B \-\-auto\-update\-homehost
+This flag is only meaningful with auto-assembly (see discussion below).
+In that situation, if no suitable arrays are found for this homehost,
+.I mdadm
+will rescan for any arrays at all and will assemble them and update the
+homehost to match the current host.
+..
+
+.TP
+.BR \-a ", " "\-\-auto{=no,yes,md,mdp,part}"
+See this option under Create and Build options.
+
+.TP
+.BR \-b ", " \-\-bitmap=
+Specify the bitmap file that was given when the array was created.  If
+an array has an
+.B internal
+bitmap, there is no need to specify this when assembling the array.
+
+.TP
+.BR \-\-backup\-file=
+If
+.B \-\-backup\-file
+was used to grow the number of raid-devices in a RAID5, and the system
+crashed during the critical section, then the same
+.B \-\-backup\-file
+must be presented to
+.B \-\-assemble
+to allow possibly corrupted data to be restored.
+
+.TP
+.BR \-f ", " \-\-force
+Assemble the array even if the metadata on some devices appears to be
+out-of-date.  If
+.I mdadm
+cannot find enough working devices to start the array, but can find
+some devices that are recorded as having failed, then it will mark
+those devices as working so that the array can be started.
+An array which requires
+.B \-\-force
+to be started may contain data corruption.  Use it carefully.
 
 .TP
 .BR \-m ", " \-\-super\-minor=
@@ -778,16 +817,14 @@ with the current
 prefixed to the start of the given name.
 
 .TP
-.BR \-f ", " \-\-force
-Assemble the array even if the metadata on some devices appears to be
-out-of-date.  If
-.I mdadm
-cannot find enough working devices to start the array, but can find
-some devices that are recorded as having failed, then it will mark
-those devices as working so that the array can be started.
-An array which requires
-.B \-\-force
-to be started may contain data corruption.  Use it carefully.
+.B \-\-no\-degraded
+This is the reverse of
+.B \-\-run
+in that it inhibits the startup of array unless all expected drives
+are present.  This is only needed with
+.B \-\-scan,
+and can be used if the physical connections to devices are
+not as reliable as you would like.
 
 .TP
 .BR \-R ", " \-\-run
@@ -799,40 +836,6 @@ is not used, then the array will be assembled but not started.
 With
 .B \-\-run
 an attempt will be made to start it anyway.
-
-.TP
-.B \-\-no\-degraded
-This is the reverse of
-.B \-\-run
-in that it inhibits the startup of array unless all expected drives
-are present.  This is only needed with
-.B \-\-scan,
-and can be used if the physical connections to devices are
-not as reliable as you would like.
-
-.TP
-.BR \-a ", " "\-\-auto{=no,yes,md,mdp,part}"
-See this option under Create and Build options.
-
-.TP
-.BR \-b ", " \-\-bitmap=
-Specify the bitmap file that was given when the array was created.  If
-an array has an
-.B internal
-bitmap, there is no need to specify this when assembling the array.
-
-.TP
-.BR \-\-backup\-file=
-If
-.B \-\-backup\-file
-was used when requesting a grow, shrink, RAID level change or other
-reshape, and the system crashed during the critical section, then the
-same
-.B \-\-backup\-file
-must be presented to
-.B \-\-assemble
-to allow possibly corrupted data to be restored, and the reshape
-to be completed.
 
 .TP
 .BR \-U ", " \-\-update=
@@ -949,15 +952,6 @@ option can be used when an array has an internal bitmap which is
 corrupt in some way so that assembling the array normally fails.  It
 will cause any internal bitmap to be ignored.
 
-.ig
-.TP
-.B \-\-auto\-update\-homehost
-This flag is only meaningful with auto-assembly (see discussion below).
-In that situation, if no suitable arrays are found for this homehost,
-.I mdadm
-will rescan for any arrays at all and will assemble them and update the
-homehost to match the current host.
-..
 
 .SH For Manage mode:
 
