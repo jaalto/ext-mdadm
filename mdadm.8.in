@@ -1249,18 +1249,20 @@ in
 as requiring an external bitmap, that bitmap will be attached first.
 
 .SH For Monitor mode:
-.TP
-.BR \-m ", " \-\-mail
-Give a mail address to send alerts to.
 
 .TP
-.BR \-p ", " \-\-program ", " \-\-alert
-Give a program to be run whenever an event is detected.
-
-.TP
-.BR \-y ", " \-\-syslog
-Cause all events to be reported through 'syslog'.  The messages have
-facility of 'daemon' and varying priorities.
+.BR \-1 ", " \-\-oneshot
+Check arrays only once.  This will generate
+.B NewArray
+events and more significantly
+.B DegradedArray
+and
+.B SparesMissing
+events.  Running
+.in +5
+.B "   mdadm \-\-monitor \-\-scan \-1"
+.in -5
+from a cron script will ensure regular notification of any degraded arrays.
 
 .TP
 .BR \-d ", " \-\-delay
@@ -1271,12 +1273,6 @@ again.  The default is 60 seconds.  Since 2.6.16, there is no need to
 reduce this as the kernel alerts
 .I mdadm
 immediately when there is any change.
-
-.TP
-.BR \-r ", " \-\-increment
-Give a percentage increment.
-.I mdadm
-will generate RebuildNN events with the given percentage increment.
 
 .TP
 .BR \-f ", " \-\-daemonise
@@ -1298,18 +1294,18 @@ is running in daemon mode, write the pid of the daemon process to
 the specified file, instead of printing it on standard output.
 
 .TP
-.BR \-1 ", " \-\-oneshot
-Check arrays only once.  This will generate
-.B NewArray
-events and more significantly
-.B DegradedArray
-and
-.B SparesMissing
-events.  Running
-.in +5
-.B "   mdadm \-\-monitor \-\-scan \-1"
-.in -5
-from a cron script will ensure regular notification of any degraded arrays.
+.BR \-m ", " \-\-mail
+Give a mail address to send alerts to.
+
+.TP
+.BR \-p ", " \-\-program ", " \-\-alert
+Give a program to be run whenever an event is detected.
+
+.TP
+.BR \-r ", " \-\-increment
+Give a percentage increment.
+.I mdadm
+will generate RebuildNN events with the given percentage increment.
 
 .TP
 .BR \-t ", " \-\-test
@@ -1318,6 +1314,12 @@ Generate a
 alert for every array found at startup.  This alert gets mailed and
 passed to the alert program.  This can be used for testing that alert
 message do get through successfully.
+
+.TP
+.BR \-y ", " \-\-syslog
+Cause all events to be reported through 'syslog'.  The messages have
+facility of 'daemon' and varying priorities.
+
 
 .SH ASSEMBLE MODE
 
