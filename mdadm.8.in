@@ -225,40 +225,6 @@ mode to be assumed.
 .SH Options that are not mode-specific are:
 
 .TP
-.BR \-h ", " \-\-help
-Display general help message or, after one of the above options, a
-mode-specific help message.
-
-.TP
-.B \-\-help\-options
-Display more detailed help about command line parsing and some commonly
-used options.
-
-.TP
-.BR \-V ", " \-\-version
-Print version information for mdadm.
-
-.TP
-.BR \-v ", " \-\-verbose
-Be more verbose about what is happening.  This can be used twice to be
-extra-verbose.
-The extra verbosity currently only affects
-.B \-\-detail \-\-scan
-and
-.BR "\-\-examine \-\-scan" .
-
-.TP
-.BR \-q ", " \-\-quiet
-Avoid printing purely informative messages.  With this,
-.I mdadm
-will be silent unless there is something really important to report.
-
-.TP
-.BR \-f ", " \-\-force
-Be more forceful about certain operations.  See the various modes for
-the exact meaning of this option in different contexts.
-
-.TP
 .BR \-c ", " \-\-config=
 Specify the config file.  Default is to use
 .BR /etc/mdadm.conf ,
@@ -280,25 +246,6 @@ If the word
 is given for the config file, then
 .I mdadm
 will act as though the config file were empty.
-
-.TP
-.BR \-s ", " \-\-scan
-Scan config file or
-.B /proc/mdstat
-for missing information.
-In general, this option gives
-.I mdadm
-permission to get any missing information (like component devices,
-array devices, array identities, and alert destination) from the
-configuration file (see previous option);
-one exception is MISC mode when using
-.B \-\-detail
-or
-.B \-\-stop,
-in which case
-.B \-\-scan
-says to get a list of array devices from
-.BR /proc/mdstat .
 
 .TP
 .BR \-e ", " \-\-metadata=
@@ -354,6 +301,21 @@ option-rom on some platforms:
 .RE
 
 .TP
+.BR \-f ", " \-\-force
+Be more forceful about certain operations.  See the various modes for
+the exact meaning of this option in different contexts.
+
+.TP
+.BR \-h ", " \-\-help
+Display general help message or, after one of the above options, a
+mode-specific help message.
+
+.TP
+.B \-\-help\-options
+Display more detailed help about command line parsing and some commonly
+used options.
+
+.TP
 .B \-\-homehost=
 This will override any
 .B HOMEHOST
@@ -374,6 +336,45 @@ When using Auto-Assemble, only arrays tagged for the given homehost
 will be allowed to use 'local' names (i.e. not ending in '_' followed
 by a digit string).  See below under
 .BR "Auto Assembly" .
+
+.TP
+.BR \-q ", " \-\-quiet
+Avoid printing purely informative messages.  With this,
+.I mdadm
+will be silent unless there is something really important to report.
+
+.TP
+.BR \-s ", " \-\-scan
+Scan config file or
+.B /proc/mdstat
+for missing information.
+In general, this option gives
+.I mdadm
+permission to get any missing information (like component devices,
+array devices, array identities, and alert destination) from the
+configuration file (see previous option);
+one exception is MISC mode when using
+.B \-\-detail
+or
+.B \-\-stop,
+in which case
+.B \-\-scan
+says to get a list of array devices from
+.BR /proc/mdstat .
+
+.TP
+.BR \-v ", " \-\-verbose
+Be more verbose about what is happening.  This can be used twice to be
+extra-verbose.
+The extra verbosity currently only affects
+.B \-\-detail \-\-scan
+and
+.BR "\-\-examine \-\-scan" .
+
+.TP
+.BR \-V ", " \-\-version
+Print version information for mdadm.
+
 
 .SH For create, build, or grow:
 
