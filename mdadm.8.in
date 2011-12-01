@@ -956,21 +956,6 @@ will cause any internal bitmap to be ignored.
 .SH For Manage mode:
 
 .TP
-.BR \-t ", " \-\-test
-Unless a more serious error occurred,
-.I mdadm
-will exit with a status of 2 if no changes were made to the array and
-0 if at least one change was made.
-This can be useful when an indirect specifier such as
-.BR missing ,
-.B detached
-or
-.B faulty
-is used in requesting an operation on the array.
-.B \-\-test
-will report failure if these specifiers didn't find any match.
-
-.TP
 .BR \-a ", " \-\-add
 hot-add listed devices.
 If a device appears to have recently been part of the array
@@ -983,6 +968,33 @@ onto that spare.
 
 Note that this and the following options are only meaningful on array
 with redundancy.  They don't apply to RAID0 or Linear.
+
+.TP
+.BR \-f ", " \-\-fail
+mark listed devices as faulty.
+As well as the name of a device file, the word
+.B detached
+can be given.  This will cause any device that has been detached from
+the system to be marked as failed.  It can then be removed.
+
+.TP
+.BR \-r ", " \-\-remove
+remove listed devices.  They must not be active.  i.e. they should
+be failed or spare devices.  As well as the name of a device file
+(e.g.
+.BR /dev/sda1 )
+the words
+.B failed
+and
+.B detached
+can be given to
+.BR \-\-remove .
+The first causes all failed device to be removed.  The second causes
+any device which is no longer connected to the system (i.e an 'open'
+returns
+.BR ENXIO )
+to be removed.  This will only succeed for devices that are spares or
+have already been marked as failed.
 
 .TP
 .BR \-\-re\-add
@@ -1006,31 +1018,9 @@ then mdadm will try to find any device that looks like it should be
 part of the array but isn't and will try to re\-add all such devices.
 
 .TP
-.BR \-r ", " \-\-remove
-remove listed devices.  They must not be active.  i.e. they should
-be failed or spare devices.  As well as the name of a device file
-(e.g.
-.BR /dev/sda1 )
-the words
-.B failed
-and
-.B detached
-can be given to
-.BR \-\-remove .
-The first causes all failed device to be removed.  The second causes
-any device which is no longer connected to the system (i.e an 'open'
-returns
-.BR ENXIO )
-to be removed.  This will only succeed for devices that are spares or
-have already been marked as failed.
-
-.TP
-.BR \-f ", " \-\-fail
-mark listed devices as faulty.
-As well as the name of a device file, the word
-.B detached
-can be given.  This will cause any device that has been detached from
-the system to be marked as failed.  It can then be removed.
+.BR \-\-readwrite
+Subsequent devices that are added or re\-added will have the 'write-mostly'
+flag cleared.
 
 .TP
 .BR \-\-set\-faulty
@@ -1038,14 +1028,25 @@ same as
 .BR \-\-fail .
 
 .TP
+.BR \-t ", " \-\-test
+Unless a more serious error occurred,
+.I mdadm
+will exit with a status of 2 if no changes were made to the array and
+0 if at least one change was made.
+This can be useful when an indirect specifier such as
+.BR missing ,
+.B detached
+or
+.B faulty
+is used in requesting an operation on the array.
+.B \-\-test
+will report failure if these specifiers didn't find any match.
+
+.TP
 .BR \-\-write\-mostly
 Subsequent devices that are added or re\-added will have the 'write-mostly'
 flag set.  This is only valid for RAID1 and means that the 'md' driver
 will avoid reading from these devices if possible.
-.TP
-.BR \-\-readwrite
-Subsequent devices that are added or re\-added will have the 'write-mostly'
-flag cleared.
 
 .P
 Each of these options requires that the first device listed is the array
