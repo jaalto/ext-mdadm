@@ -174,6 +174,22 @@ requests the Linux Kernel to activate any auto-detected arrays.
 Assemble a pre-existing array.
 
 .TP
+.B \-\-auto-detect
+Request that the kernel starts any auto-detected arrays.  This can only
+work if
+.I md
+is compiled into the kernel \(em not if it is a module.
+Arrays can be auto-detected by the kernel if all the components are in
+primary MS-DOS partitions with partition type
+.BR FD ,
+and all use v0.90 metadata.
+In-kernel autodetect is not recommended for new installations.  Using
+.I mdadm
+to detect and assemble arrays \(em possibly in an
+.I initrd
+\(em is substantially more flexible and should be preferred.
+
+.TP
 .BR \-B ", " \-\-build
 Build a legacy array without superblocks.
 
@@ -194,22 +210,6 @@ Change the size or shape of an active array.
 .TP
 .BR \-I ", " \-\-incremental
 Add/remove a single device to/from an appropriate array, and possibly start the array.
-
-.TP
-.B \-\-auto-detect
-Request that the kernel starts any auto-detected arrays.  This can only
-work if
-.I md
-is compiled into the kernel \(em not if it is a module.
-Arrays can be auto-detected by the kernel if all the components are in
-primary MS-DOS partitions with partition type
-.BR FD ,
-and all use v0.90 metadata.
-In-kernel autodetect is not recommended for new installations.  Using
-.I mdadm
-to detect and assemble arrays \(em possibly in an
-.I initrd
-\(em is substantially more flexible and should be preferred.
 
 .P
 If a device is given before any options, or if the first option is
