@@ -1910,6 +1910,16 @@ The different events are:
 
 .RS 4
 .TP
+.B DegradedArray
+A newly noticed array appears to be degraded.  This message is not
+generated when
+.I mdadm
+notices a drive failure which causes degradation, but only when
+.I mdadm
+notices that an array is degraded when it first sees the array.
+(syslog priority: Critical)
+
+.TP
 .B DeviceDisappeared
 An md array which previously was configured appears to no longer be
 configured. (syslog priority: Critical)
@@ -1925,8 +1935,27 @@ This is because RAID0 and Linear do not support the device-failed,
 hot-spare and resync operations which are monitored.
 
 .TP
-.B RebuildStarted
-An md array started reconstruction. (syslog priority: Warning)
+.B Fail
+An active component device of an array has been marked as
+faulty. (syslog priority: Critical)
+
+.TP
+.B FailSpare
+A spare component device which was being rebuilt to replace a faulty
+device has failed. (syslog priority: Critical)
+
+.TP
+.B MoveSpare
+A spare drive has been moved from one array in a
+.B spare-group
+to another to allow a failed drive to be replaced.
+(syslog priority: Info)
+
+.TP
+.B NewArray
+A new md array has been detected in the
+.B /proc/mdstat
+file.  (syslog priority: Info)
 
 .TP
 .BI Rebuild NN
@@ -1943,42 +1972,13 @@ An md array that was rebuilding, isn't any more, either because it
 finished normally or was aborted. (syslog priority: Warning)
 
 .TP
-.B Fail
-An active component device of an array has been marked as
-faulty. (syslog priority: Critical)
-
-.TP
-.B FailSpare
-A spare component device which was being rebuilt to replace a faulty
-device has failed. (syslog priority: Critical)
+.B RebuildStarted
+An md array started reconstruction. (syslog priority: Warning)
 
 .TP
 .B SpareActive
 A spare component device which was being rebuilt to replace a faulty
 device has been successfully rebuilt and has been made active.
-(syslog priority: Info)
-
-.TP
-.B NewArray
-A new md array has been detected in the
-.B /proc/mdstat
-file.  (syslog priority: Info)
-
-.TP
-.B DegradedArray
-A newly noticed array appears to be degraded.  This message is not
-generated when
-.I mdadm
-notices a drive failure which causes degradation, but only when
-.I mdadm
-notices that an array is degraded when it first sees the array.
-(syslog priority: Critical)
-
-.TP
-.B MoveSpare
-A spare drive has been moved from one array in a
-.B spare-group
-to another to allow a failed drive to be replaced.
 (syslog priority: Info)
 
 .TP
